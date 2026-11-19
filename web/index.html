@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="An interactive course for learning knowledge graphs from source data to evidence-backed answers."
+    />
+    <title>Knowledge Graph Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">KG</span>
+          <div>
+            <p class="eyebrow">Acme Engineering</p>
+            <h1>Knowledge Graph Lab</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <span id="progress-label">Step 1 of 5</span>
+          <button class="theme-button" id="theme-toggle" type="button" aria-label="Toggle theme">
+            ◐
+          </button>
+        </div>
+      </header>
+
+      <nav class="pipeline-strip" id="pipeline-strip" aria-label="Knowledge graph workflow"></nav>
+
+      <div class="workspace">
+        <aside class="lesson-nav panel">
+          <p class="eyebrow">Learning path</p>
+          <h2>From text to trusted facts</h2>
+          <p class="muted">
+            Move through the pipeline and watch one fact become an answer.
+          </p>
+          <ol id="step-list" class="step-list"></ol>
+          <div class="concept-card">
+            <span class="concept-icon">?</span>
+            <div>
+              <strong>Prediction</strong>
+              <p id="prediction">What do you think happens next?</p>
+            </div>
+          </div>
+        </aside>
+
+        <section class="lesson-stage">
+          <div class="stage-heading">
+            <div>
+              <p class="eyebrow" id="stage-kicker">Milestone 1 · Graph fundamentals</p>
+              <h2 id="stage-title">A fact begins as a sentence</h2>
+            </div>
+            <span class="status-pill" id="status-pill">Source</span>
+          </div>
+
+          <div class="graph-card">
+            <div class="graph-toolbar">
+              <span class="toolbar-label">Live graph view</span>
+              <span class="toolbar-hint" id="toolbar-hint">Read the source statement</span>
+            </div>
+            <div class="graph-canvas" id="graph-canvas">
+              <div class="request-token" id="request-token">QUESTION →</div>
+              <div class="source-note" id="source-note">
+                “The Payments team owns the Checkout service.”
+              </div>
+              <svg class="graph-lines" id="graph-lines" viewBox="0 0 760 360" aria-hidden="true">
+                <defs>
+                  <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                    <path d="M0,0 L8,4 L0,8 Z" fill="currentColor"></path>
+                  </marker>
+                </defs>
+              </svg>
+              <div class="graph-node team" data-node="payments-team">
+                <span class="node-type">Team</span>
+                <strong>Payments</strong>
+              </div>
+              <div class="graph-node service" data-node="checkout">
+                <span class="node-type">Service</span>
+                <strong>Checkout</strong>
+              </div>
+              <div class="graph-node technology" data-node="postgresql">
+                <span class="node-type">Technology</span>
+                <strong>PostgreSQL</strong>
+              </div>
+              <div class="graph-node person" data-node="asha">
+                <span class="node-type">Person</span>
+                <strong>Asha</strong>
+              </div>
+              <div class="edge-label edge-owns">OWNS</div>
+              <div class="edge-label edge-uses">USES</div>
+              <div class="edge-label edge-works">WORKS_AT</div>
+            </div>
+          </div>
+
+          <div class="stage-controls">
+            <button class="button secondary" id="previous" type="button">← Previous</button>
+            <div class="step-dots" id="step-dots" aria-label="Lesson steps"></div>
+            <button class="button primary" id="next" type="button">Next step →</button>
+          </div>
+        </section>
+
+        <aside class="lesson-explanation panel">
+          <p class="eyebrow">What is happening?</p>
+          <h2 id="explanation-title">Source data</h2>
+          <p id="explanation-text"></p>
+          <div class="code-card" id="explanation-code"></div>
+          <div class="substep-section">
+            <p class="eyebrow">Inside this stage</p>
+            <div class="substep-list" id="substep-list"></div>
+            <div class="substep-detail" id="substep-detail"></div>
+          </div>
+          <div class="scale-card">
+            <div class="scale-card-heading">
+              <span class="scale-icon">↗</span>
+              <strong>At production scale</strong>
+            </div>
+            <p id="scale-text"></p>
+          </div>
+          <div class="evidence-card">
+            <p class="eyebrow">Evidence trail</p>
+            <p id="evidence-text"></p>
+          </div>
+          <div class="metrics-card">
+            <p class="eyebrow">Live evaluation</p>
+            <div class="metric-grid">
+              <div><strong id="metric-recall">—</strong><span>recall</span></div>
+              <div><strong id="metric-unsupported">—</strong><span>unsupported</span></div>
+              <div><strong id="metric-citation">—</strong><span>citation</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="footer-note">
+        <span>One question · one graph path · one explainable answer</span>
+        <span id="footer-status">No answer generated yet</span>
+      </footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

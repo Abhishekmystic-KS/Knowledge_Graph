@@ -414,3 +414,52 @@ The safe default is deny. A user should not learn a restricted fact merely
 because it is connected to a fact they are allowed to see. Access decisions
 must also be logged without exposing the restricted content.
 hi
+
+## Milestone 14 — Production readiness: bounded retries
+
+Temporary failures can happen while reading an API or document store. Retry
+only errors explicitly classified as transient, and stop after a small limit.
+
+```text
+attempt 1 -> temporary failure
+attempt 2 -> temporary failure
+attempt 3 -> success
+```
+
+Do not retry validation errors, permission errors, or malformed data; retrying
+those only repeats the same failure. Production systems also add backoff and
+jitter so many workers do not retry simultaneously.
+
+## Milestone 15 — Production readiness: versioning and rollback
+
+Ingestion should create a new graph version rather than overwriting the only
+copy. If a bad file assigns the wrong owner to a service, operators can
+activate the previous known-good version:
+
+```text
+v1: Checkout owned by Payments
+v2: Checkout owned by UnknownTeam
+rollback -> activate v1
+```
+
+Rollback restores a known state; it does not erase the bad version. Keeping the
+bad version makes the incident auditable and allows the ingestion bug to be
+fixed before trying again.
+
+## Interactive learning interface
+
+The reference site uses a client-rendered app root, a diagram-first layout,
+step navigation, a monospace teaching font, CSS custom properties for themes,
+and explanatory content beside the visual. We built an original knowledge-graph
+lesson with the same interaction idea without copying its source, text, or
+assets.
+
+The first lesson demonstrates:
+
+```text
+source -> extraction -> entity linking -> validation -> querying
+```
+
+Each step exposes a prediction, graph state, evidence trail, and production
+scale note. The page is intentionally dependency-free so the learner can read
+the DOM, CSS, and state transitions directly.

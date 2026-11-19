@@ -8,6 +8,8 @@ from .graph import KnowledgeGraph, Node
 from .ingestion import load_json_graph
 from .linking import EntityLinker
 from .provenance import FactRecord
+from .retries import TransientError, retry_transient
+from .versioning import GraphVersion, VersionStore
 from .observability import QueryEvent, create_query_event
 from .schema import Fact, validate_fact
 
@@ -27,6 +29,10 @@ __all__ = [
     "load_json_graph",
     "QueryEvent",
     "create_query_event",
+    "TransientError",
+    "retry_transient",
+    "GraphVersion",
+    "VersionStore",
     "validate_fact",
 ]
 from .authorization import can_access

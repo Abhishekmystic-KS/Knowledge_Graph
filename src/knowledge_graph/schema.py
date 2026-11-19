@@ -8,6 +8,7 @@ NODE_TYPES = frozenset({"Person", "Team", "Service", "Technology", "Incident"})
 ALLOWED_RELATIONSHIPS = {
     ("Person", "MEMBER_OF", "Team"),
     ("Team", "OWNS", "Service"),
+    ("Service", "OWNED_BY", "Team"),
     ("Service", "USES", "Technology"),
     ("Service", "DEPENDS_ON", "Service"),
     ("Incident", "AFFECTED", "Service"),

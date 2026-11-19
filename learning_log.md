@@ -289,4 +289,52 @@ Source text: "Checkout uses PostgreSQL."
 
 If a user asks which database Checkout uses and the graph has no matching fact,
 should the assistant guess based on a common technology choice?
+
+## Milestone 8 — Conflict handling
+
+### Concept learned
+
+A conflict occurs when the same subject and relationship have different
+objects:
+
+```text
+Checkout --OWNED_BY--> Payments
+Checkout --OWNED_BY--> Growth
+```
+
+The system should preserve both source-backed claims, mark the conflict, and
+resolve it using source authority, freshness, or human review. Two sources
+repeating the same claim are not a conflict.
+
+### Challenge
+
+If the catalog says Payments owns Checkout and a six-month-old wiki says Growth
+owns Checkout, which fact should receive more trust, and why?
+
+## Milestone 9 — Evaluation
+
+### Concept learned
+
+Evaluation compares system behavior with a small gold dataset containing the
+expected facts. A plausible answer is not enough; the retrieved facts and
+claims must be checked.
+
+Important first metrics:
+
+- **retrieval recall**: percentage of required facts retrieved;
+- **unsupported-claim rate**: percentage of answer claims not present in the
+  retrieved evidence.
+
+Example:
+
+```text
+Required facts: owner, database
+Retrieved facts: owner
+Recall: 1 / 2 = 0.5
+```
+
+### Challenge
+
+If retrieval recall is 1.0 but unsupported-claim rate is 0.5, is the system
+safe to trust? Explain why or why not.
 hi

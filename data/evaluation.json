@@ -1,0 +1,7 @@
+[
+  {
+    "question": "Who owns Checkout and what database does it use?",
+    "required_fact_ids": ["checkout-owner", "checkout-database"],
+    "acceptable_answer_fact_ids": ["checkout-owner", "checkout-database"]
+  }
+]

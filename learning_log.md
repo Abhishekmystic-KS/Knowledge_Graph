@@ -348,4 +348,69 @@ supported citations / all citations
 
 A citation can be real but irrelevant, so citation presence alone is not
 enough. The cited source must support the specific claim.
+
+## Milestone 10 — End-to-end question
+
+The example in `examples/ask_checkout.py` demonstrates the complete path:
+
+```text
+JSON source -> validation -> graph -> relationship query -> evidence-backed answer
+```
+
+It answers:
+
+```text
+Who owns Checkout and what database does it use?
+```
+
+The answer is only considered useful because it includes the two source files
+supporting the ownership and technology facts.
+
+## Milestone 11 — Production readiness: freshness
+
+Production data changes. A fact should carry an observation date, and each
+fact type should have a freshness policy. For example, service ownership might
+need review every 90 days, while a historical incident timeline should remain
+valid permanently.
+
+```text
+observed_at = 2026-01-01
+today       = 2026-11-19
+max_age     = 30 days
+result      = stale
+```
+
+Stale facts should be refreshed, marked uncertain, or excluded from answers
+depending on the use case. Freshness does not prove correctness; it is only one
+signal.
+
+## Milestone 12 — Production readiness: observability
+
+Logging records structured operational facts such as:
+
+```text
+query_id
+retrieved_fact_count
+latency_ms
+answer_supported
+```
+
+These fields help answer questions like "Are answers getting slower?" and "How
+often do we refuse unsupported questions?" Do not log secrets or unnecessary
+raw user content. Logs describe behavior; they do not replace evaluation.
+
+## Milestone 13 — Production readiness: access control
+
+Graph facts may have different visibility rules. Authorization should be
+checked before a fact is retrieved or included in an answer:
+
+```text
+fact requires: payments-engineer
+user roles:    frontend-engineer
+result:        deny
+```
+
+The safe default is deny. A user should not learn a restricted fact merely
+because it is connected to a fact they are allowed to see. Access decisions
+must also be logged without exposing the restricted content.
 hi

@@ -157,3 +157,53 @@ and rejection of edges whose endpoints are missing.
 - How to define a larger schema
 - How to preserve source evidence for every fact
 - How to ingest documents and handle conflicting facts
+
+## Milestone 2 — Schema design
+
+### Concept learned
+
+A schema is a contract for the graph. It defines which entity types exist and
+which relationship shapes are valid. For example, a `Team` can `OWNS` a
+`Service`, but a `Service` cannot `OWNS` a `Team` in our current model.
+
+### Design
+
+The first schema supports `Person`, `Team`, `Service`, `Technology`, and
+`Incident` nodes. It allows membership, ownership, technology usage, service
+dependencies, and incident impact relationships.
+
+### Challenge
+
+Predict whether this fact should pass validation:
+
+```text
+Checkout --DEPENDS_ON--> PostgreSQL
+```
+
+The next step is to verify the prediction and then add source metadata to each
+fact.
+
+## Milestone 3 — JSON ingestion
+
+### Concept learned
+
+Ingestion means loading source data into the graph. Our JSON separates
+`nodes` (entities) from `edges` (relationships). Before an edge is stored, the
+loader checks that its endpoints exist, its relationship matches the schema,
+and its source is recorded.
+
+### Example
+
+```json
+{
+  "subject": "payments-team",
+  "predicate": "OWNS",
+  "object": "checkout",
+  "source": "engineering-catalog.json"
+}
+```
+
+### Challenge
+
+Why should we reject an edge that refers to an ID not present in the `nodes`
+list instead of creating that node automatically?

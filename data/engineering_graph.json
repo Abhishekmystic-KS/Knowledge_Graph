@@ -1,0 +1,33 @@
+{
+  "nodes": [
+    {
+      "id": "payments-team",
+      "type": "Team",
+      "properties": {"name": "Payments"}
+    },
+    {
+      "id": "checkout",
+      "type": "Service",
+      "properties": {"name": "Checkout"}
+    },
+    {
+      "id": "postgresql",
+      "type": "Technology",
+      "properties": {"name": "PostgreSQL"}
+    }
+  ],
+  "edges": [
+    {
+      "subject": "payments-team",
+      "predicate": "OWNS",
+      "object": "checkout",
+      "source": "engineering-catalog.json"
+    },
+    {
+      "subject": "checkout",
+      "predicate": "USES",
+      "object": "postgresql",
+      "source": "service-inventory.json"
+    }
+  ]
+}

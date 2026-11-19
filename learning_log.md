@@ -270,4 +270,23 @@ returning an unexplained name.
 
 For the question `"What does Checkout use?"`, which relationship should the
 query follow: `OWNS`, `USES`, or `DEPENDS_ON`?
+
+## Milestone 7 — Evidence-backed answers
+
+### Concept learned
+
+Retrieval finds facts; answering turns only those facts into a response. The
+answer must include the supporting records so a person can inspect the source.
+If no fact was retrieved, the safe behavior is to refuse rather than guess.
+
+```text
+Answer: checkout USES postgresql
+Evidence: service-inventory.json
+Source text: "Checkout uses PostgreSQL."
+```
+
+### Challenge
+
+If a user asks which database Checkout uses and the graph has no matching fact,
+should the assistant guess based on a common technology choice?
 hi

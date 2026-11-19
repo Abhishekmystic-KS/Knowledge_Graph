@@ -2,143 +2,374 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta
       name="description"
-      content="An interactive course for learning knowledge graphs from source data to evidence-backed answers."
+      content="An interactive course for building production-grade knowledge graphs: data sources, extraction, entity linking, validation, deduplication, provenance, storage, querying, evidence-backed answering, conflict handling, and evaluation."
     />
-    <title>Knowledge Graph Lab</title>
+    <title>Knowledge Graph Lab · Interactive Course</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app-shell">
-      <header class="topbar">
+    <div class="app-window" id="app-window">
+      <!-- Topbar Header -->
+      <header class="app-topbar">
         <div class="brand">
-          <span class="brand-mark">KG</span>
-          <div>
-            <p class="eyebrow">Acme Engineering</p>
-            <h1>Knowledge Graph Lab</h1>
+          <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle explorer sidebar" aria-expanded="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="brand-mark" aria-hidden="true">KG</div>
+          <div class="brand-text">
+            <span class="brand-eyebrow">Acme Engineering</span>
+            <h1 class="brand-title">Knowledge Graph Lab</h1>
           </div>
         </div>
+
+        <!-- Global pipeline overview strip -->
+        <nav class="pipeline-nav" id="pipeline-nav" aria-label="Pipeline stages"></nav>
+
         <div class="topbar-actions">
-          <span id="progress-label">Step 1 of 5</span>
-          <button class="theme-button" id="theme-toggle" type="button" aria-label="Toggle theme">
-            ◐
+          <span class="progress-chip" id="progress-chip" aria-live="polite">Stage 01 / 11</span>
+          <button class="theme-toggle-btn" id="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle theme (T)">
+            <span class="theme-icon" aria-hidden="true">◐</span>
           </button>
         </div>
       </header>
 
-      <nav class="pipeline-strip" id="pipeline-strip" aria-label="Knowledge graph workflow"></nav>
+      <!-- Main Body: 3-column layout (Explorer, Hero Stage Canvas, Guide Rail) -->
+      <div class="app-body">
+        <!-- Left: IDE-style Explorer Sidebar -->
+        <aside class="explorer-sidebar" id="explorer-sidebar" aria-label="Course files explorer">
+          <div class="explorer-header">
+            <div class="explorer-title-row">
+              <span class="explorer-label">EXPLORER</span>
+              <span class="explorer-repo">acme-graph-course</span>
+            </div>
+            <div class="explorer-actions">
+              <button class="action-btn" id="collapse-all-btn" type="button" title="Collapse all folders" aria-label="Collapse all folders">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="4 14 10 14 10 20"></polyline>
+                  <polyline points="20 10 14 10 14 4"></polyline>
+                  <line x1="14" y1="10" x2="21" y2="3"></line>
+                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+              </button>
+              <button class="drawer-close-btn" id="drawer-close-btn" type="button" aria-label="Close explorer">✕</button>
+            </div>
+          </div>
 
-      <div class="workspace">
-        <aside class="lesson-nav panel">
-          <p class="eyebrow">Learning path</p>
-          <h2>From text to trusted facts</h2>
-          <p class="muted">
-            Move through the pipeline and watch one fact become an answer.
-          </p>
-          <ol id="step-list" class="step-list"></ol>
-          <div class="concept-card">
-            <span class="concept-icon">?</span>
-            <div>
-              <strong>Prediction</strong>
-              <p id="prediction">What do you think happens next?</p>
+          <nav class="file-tree" role="tree" id="file-tree" aria-label="Knowledge graph lessons tree"></nav>
+
+          <div class="explorer-stats" id="explorer-stats">
+            <div class="stats-item">
+              <span class="stats-num">11</span>
+              <span class="stats-text">Stages</span>
+            </div>
+            <div class="stats-divider">·</div>
+            <div class="stats-item">
+              <span class="stats-num">44</span>
+              <span class="stats-text">Substeps</span>
+            </div>
+            <div class="stats-divider">·</div>
+            <div class="stats-item">
+              <span class="stats-status">Auditable</span>
             </div>
           </div>
         </aside>
 
-        <section class="lesson-stage">
-          <div class="stage-heading">
-            <div>
-              <p class="eyebrow" id="stage-kicker">Milestone 1 · Graph fundamentals</p>
-              <h2 id="stage-title">A fact begins as a sentence</h2>
+        <!-- Center: Hero Stage Canvas & Controls -->
+        <main class="stage-sheet" id="stage-sheet">
+          <section class="stage-header">
+            <div class="stage-header-main">
+              <p class="stage-kicker" id="stage-kicker">Milestone 1 · Foundations</p>
+              <h2 class="stage-title" id="stage-title">Data sources: everything begins outside the graph</h2>
             </div>
-            <span class="status-pill" id="status-pill">Source</span>
-          </div>
+            <div class="stage-header-meta">
+              <span class="status-pill" id="status-pill">Data sources</span>
+              <div class="request-ticker" id="request-ticker" aria-live="polite">
+                <span class="ticker-label">REQUEST:</span>
+                <span class="ticker-text" id="ticker-text">“Who owns Checkout and what does it use?”</span>
+              </div>
+            </div>
+          </section>
 
-          <div class="graph-card">
-            <div class="graph-toolbar">
-              <span class="toolbar-label">Live graph view</span>
-              <span class="toolbar-hint" id="toolbar-hint">Read the source statement</span>
+          <!-- Interactive Hero Graph Canvas Card -->
+          <figure class="canvas-card" id="canvas-card" aria-label="Knowledge graph live visualization">
+            <div class="canvas-hud">
+              <div class="hud-left">
+                <span class="hud-indicator" aria-hidden="true"></span>
+                <span class="hud-title" id="canvas-status">Live Graph Visualizer</span>
+              </div>
+              <div class="hud-right">
+                <span class="canvas-hint" id="canvas-hint">Inspect raw source intake</span>
+                <button class="reset-view-btn" id="replay-anim-btn" type="button" title="Replay stage animation">↺ Replay</button>
+              </div>
             </div>
+
+            <!-- Live Canvas Area -->
             <div class="graph-canvas" id="graph-canvas">
-              <div class="request-token" id="request-token">QUESTION →</div>
-              <div class="source-note" id="source-note">
-                “The Payments team owns the Checkout service.”
-              </div>
-              <svg class="graph-lines" id="graph-lines" viewBox="0 0 760 360" aria-hidden="true">
+              <!-- Ambient background decorations -->
+              <div class="orbit orbit-outer" aria-hidden="true"></div>
+              <div class="orbit orbit-inner" aria-hidden="true"></div>
+              <div class="grid-overlay" aria-hidden="true"></div>
+
+              <!-- SVG Edges Layer -->
+              <svg class="graph-svg" id="graph-svg" viewBox="0 0 800 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
                 <defs>
-                  <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-                    <path d="M0,0 L8,4 L0,8 Z" fill="currentColor"></path>
+                  <linearGradient id="edge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="var(--blue-strong)" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="var(--green-strong)" stop-opacity="0.9" />
+                  </linearGradient>
+                  <marker id="arrow-default" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+                    <polygon points="0 0, 9 4.5, 0 9" fill="currentColor"></polygon>
                   </marker>
+                  <marker id="arrow-highlight" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+                    <polygon points="0 0, 10 5, 0 10" fill="var(--green-3)"></polygon>
+                  </marker>
+                  <marker id="arrow-conflict" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+                    <polygon points="0 0, 9 4.5, 0 9" fill="var(--rust)"></polygon>
+                  </marker>
+                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
                 </defs>
+                <g id="svg-paths-group"></g>
               </svg>
-              <div class="graph-node team" data-node="payments-team">
-                <span class="node-type">Team</span>
-                <strong>Payments</strong>
-              </div>
-              <div class="graph-node service" data-node="checkout">
-                <span class="node-type">Service</span>
-                <strong>Checkout</strong>
-              </div>
-              <div class="graph-node technology" data-node="postgresql">
-                <span class="node-type">Technology</span>
-                <strong>PostgreSQL</strong>
-              </div>
-              <div class="graph-node person" data-node="asha">
-                <span class="node-type">Person</span>
-                <strong>Asha</strong>
-              </div>
-              <div class="edge-label edge-owns">OWNS</div>
-              <div class="edge-label edge-uses">USES</div>
-              <div class="edge-label edge-works">WORKS_AT</div>
-            </div>
-          </div>
 
-          <div class="stage-controls">
-            <button class="button secondary" id="previous" type="button">← Previous</button>
-            <div class="step-dots" id="step-dots" aria-label="Lesson steps"></div>
-            <button class="button primary" id="next" type="button">Next step →</button>
-          </div>
-        </section>
+              <!-- Dynamic Entities / Nodes Layer -->
+              <div class="nodes-container" id="nodes-container">
+                <!-- Team Node: Payments -->
+                <div class="graph-node team" id="node-payments" data-node-id="team:payments" role="button" tabindex="0" aria-label="Team: Payments Team">
+                  <div class="node-chassis-head">
+                    <span class="node-status-led" aria-hidden="true"></span>
+                    <span class="node-badge">Team</span>
+                    <span class="node-port">ORG</span>
+                  </div>
+                  <div class="node-chassis-body">
+                    <div class="node-glyph" aria-hidden="true">👥</div>
+                    <div class="node-info">
+                      <strong class="node-name">Payments</strong>
+                      <span class="node-meta">8 Eng · Tier 1 Owner</span>
+                    </div>
+                  </div>
+                </div>
 
-        <aside class="lesson-explanation panel">
-          <p class="eyebrow">What is happening?</p>
-          <h2 id="explanation-title">Source data</h2>
-          <p id="explanation-text"></p>
-          <div class="code-card" id="explanation-code"></div>
-          <div class="substep-section">
-            <p class="eyebrow">Inside this stage</p>
-            <div class="substep-list" id="substep-list"></div>
-            <div class="substep-detail" id="substep-detail"></div>
-          </div>
-          <div class="scale-card">
-            <div class="scale-card-heading">
-              <span class="scale-icon">↗</span>
-              <strong>At production scale</strong>
+                <!-- Service Node: Checkout -->
+                <div class="graph-node service" id="node-checkout" data-node-id="service:checkout" role="button" tabindex="0" aria-label="Service: Checkout">
+                  <div class="node-chassis-head">
+                    <span class="node-status-led" aria-hidden="true"></span>
+                    <span class="node-badge">Service</span>
+                    <span class="node-port">:8080</span>
+                  </div>
+                  <div class="node-chassis-body">
+                    <div class="node-glyph" aria-hidden="true">⚙️</div>
+                    <div class="node-info">
+                      <strong class="node-name">Checkout</strong>
+                      <span class="node-meta">v2.4 · REST API</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Technology Node: PostgreSQL -->
+                <div class="graph-node tech" id="node-postgresql" data-node-id="tech:postgresql" role="button" tabindex="0" aria-label="Technology: PostgreSQL">
+                  <div class="node-chassis-head">
+                    <span class="node-status-led" aria-hidden="true"></span>
+                    <span class="node-badge">Database</span>
+                    <span class="node-port">:5432</span>
+                  </div>
+                  <div class="node-chassis-body">
+                    <div class="node-glyph" aria-hidden="true">🗄️</div>
+                    <div class="node-info">
+                      <strong class="node-name">PostgreSQL</strong>
+                      <span class="node-meta">Relational · 380 IOPS</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Person Node: Asha -->
+                <div class="graph-node person" id="node-asha" data-node-id="person:asha" role="button" tabindex="0" aria-label="Person: Asha Patel">
+                  <div class="node-chassis-head">
+                    <span class="node-status-led" aria-hidden="true"></span>
+                    <span class="node-badge">Person</span>
+                    <span class="node-port">ENG</span>
+                  </div>
+                  <div class="node-chassis-body">
+                    <div class="node-glyph" aria-hidden="true">👤</div>
+                    <div class="node-info">
+                      <strong class="node-name">Asha Patel</strong>
+                      <span class="node-meta">Staff Eng · Payments</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Incident Node: INC-842 -->
+                <div class="graph-node incident" id="node-incident" data-node-id="incident:inc-842" role="button" tabindex="0" aria-label="Incident: INC-842">
+                  <div class="node-chassis-head">
+                    <span class="node-status-led alert-led" aria-hidden="true"></span>
+                    <span class="node-badge">Incident</span>
+                    <span class="node-port">P1</span>
+                  </div>
+                  <div class="node-chassis-body">
+                    <div class="node-glyph" aria-hidden="true">🚨</div>
+                    <div class="node-info">
+                      <strong class="node-name">INC-842</strong>
+                      <span class="node-meta">Checkout Outage · 42m</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Edge Labels Layer -->
+                <div class="edge-tag edge-tag-owns" id="tag-owns">OWNS</div>
+                <div class="edge-tag edge-tag-uses" id="tag-uses">USES</div>
+                <div class="edge-tag edge-tag-works" id="tag-works">WORKS_AT</div>
+                <div class="edge-tag edge-tag-affected" id="tag-affected">AFFECTED</div>
+              </div>
+
+              <!-- Moving Request / Data Packet Indicator -->
+              <div class="request-packet" id="request-packet" aria-hidden="true">
+                <span class="packet-dot"></span>
+                <span class="packet-text" id="packet-text">DATA</span>
+              </div>
+
+              <!-- Specialized Stage Overlays Layer -->
+              <div class="stage-overlay" id="stage-overlay" aria-live="polite"></div>
             </div>
-            <p id="scale-text"></p>
-          </div>
-          <div class="evidence-card">
-            <p class="eyebrow">Evidence trail</p>
-            <p id="evidence-text"></p>
-          </div>
-          <div class="metrics-card">
-            <p class="eyebrow">Live evaluation</p>
-            <div class="metric-grid">
-              <div><strong id="metric-recall">—</strong><span>recall</span></div>
-              <div><strong id="metric-unsupported">—</strong><span>unsupported</span></div>
-              <div><strong id="metric-citation">—</strong><span>citation</span></div>
+
+            <!-- Clickable Substeps Bar -->
+            <div class="substeps-strip" id="substeps-strip" role="tablist" aria-label="Stage substeps"></div>
+          </figure>
+
+          <!-- Stage Navigation Controls -->
+          <nav class="stage-controls" aria-label="Stage navigation">
+            <button class="nav-btn secondary" id="prev-btn" type="button" title="Previous stage (K or ←)">
+              <span class="nav-arrow" aria-hidden="true">←</span>
+              <span>Previous</span>
+            </button>
+            <div class="stage-progress-dots" id="stage-dots" role="tablist" aria-label="Progress dots"></div>
+            <button class="nav-btn primary" id="next-btn" type="button" title="Next stage (J or →)">
+              <span>Next stage</span>
+              <span class="nav-arrow" aria-hidden="true">→</span>
+            </button>
+          </nav>
+        </main>
+
+        <!-- Right: Educational Guide Rail Panel -->
+        <aside class="guide-rail" id="guide-rail" aria-label="Learning guide and concept explanation">
+          <header class="guide-header">
+            <div class="guide-meta-top">
+              <span class="guide-eyebrow">Concept deep dive</span>
+              <span class="guide-badge" id="guide-stage-badge">01 / 11</span>
             </div>
+            <h3 class="guide-concept-title" id="guide-title">Data sources</h3>
+          </header>
+
+          <div class="guide-scroll-body" id="guide-body">
+            <!-- Core concept explanation -->
+            <section class="guide-section">
+              <p class="guide-lead-text" id="guide-lead"></p>
+              <div class="guide-explanation-box" id="guide-explanation"></div>
+            </section>
+
+            <!-- Substep detail card -->
+            <section class="guide-section substep-detail-card" id="substep-detail-card">
+              <div class="card-head">
+                <span class="card-icon" aria-hidden="true">🔍</span>
+                <h4 class="card-title" id="substep-detail-title">Substep details</h4>
+              </div>
+              <p class="card-text" id="substep-detail-text"></p>
+            </section>
+
+            <!-- Interactive Prediction Question -->
+            <section class="guide-section prediction-quiz-card" id="prediction-quiz-card">
+              <div class="quiz-header">
+                <span class="quiz-pill">PREDICTION CHALLENGE</span>
+                <span class="quiz-status" id="quiz-status">Select an answer</span>
+              </div>
+              <p class="quiz-question" id="quiz-question"></p>
+              <div class="quiz-options" id="quiz-options" role="radiogroup" aria-label="Prediction options"></div>
+              <div class="quiz-feedback" id="quiz-feedback" aria-live="polite"></div>
+            </section>
+
+            <!-- Code / Data Artifact Snippet -->
+            <section class="guide-section code-snippet-section">
+              <div class="snippet-header">
+                <span class="snippet-lang" id="snippet-lang">JSON</span>
+                <span class="snippet-filename" id="snippet-filename">catalog.json</span>
+                <button class="copy-snippet-btn" id="copy-snippet-btn" type="button" title="Copy snippet to clipboard">Copy</button>
+              </div>
+              <pre class="snippet-code-block" id="snippet-code"><code id="code-content"></code></pre>
+            </section>
+
+            <!-- Failure mode ("What can fail") -->
+            <section class="guide-section alert-card failure-card">
+              <div class="alert-head">
+                <span class="alert-icon" aria-hidden="true">⚠️</span>
+                <h4>What can fail in production?</h4>
+              </div>
+              <p id="failure-text"></p>
+            </section>
+
+            <!-- Production Scale Behavior -->
+            <section class="guide-section scale-card">
+              <div class="card-head">
+                <span class="card-icon" aria-hidden="true">⚡</span>
+                <h4>At production scale</h4>
+              </div>
+              <p id="scale-text"></p>
+            </section>
+
+            <!-- Evidence & Audit Trail -->
+            <section class="guide-section evidence-card">
+              <div class="card-head">
+                <span class="card-icon" aria-hidden="true">📜</span>
+                <h4>Evidence & audit trail</h4>
+              </div>
+              <div class="evidence-meta-grid" id="evidence-grid"></div>
+            </section>
+
+            <!-- Live Evaluation Metrics Dashboard -->
+            <section class="guide-section evaluation-metrics-card">
+              <div class="card-head">
+                <span class="card-icon" aria-hidden="true">📊</span>
+                <h4>Live evaluation scorecard</h4>
+              </div>
+              <p class="metrics-hint">Click any metric tile to inspect its formula and target threshold.</p>
+              <div class="metrics-tiles-grid" id="metrics-grid"></div>
+              <div class="metric-explainer-box" id="metric-explainer" aria-live="polite">
+                <strong id="metric-explainer-name">Retrieval recall</strong>
+                <p id="metric-explainer-desc">Select a metric above to inspect its production significance.</p>
+              </div>
+            </section>
           </div>
         </aside>
       </div>
 
-      <footer class="footer-note">
-        <span>One question · one graph path · one explainable answer</span>
-        <span id="footer-status">No answer generated yet</span>
+      <!-- App Semantic Footer -->
+      <footer class="app-footer" role="contentinfo">
+        <div class="footer-left">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span class="footer-status-text" id="footer-status">Graph Engine: Ready · 5 Entities · 4 Edges · Fully Auditable</span>
+        </div>
+        <div class="footer-center">
+          <span class="footer-motto">Facts connected · Claims cited · Refusals safe</span>
+        </div>
+        <div class="footer-right">
+          <span class="kbd-shortcuts" title="Keyboard shortcuts: J (Next), K (Previous), T (Theme)">
+            <kbd>J</kbd>/<kbd>→</kbd> Next · <kbd>K</kbd>/<kbd>←</kbd> Prev · <kbd>T</kbd> Theme
+          </span>
+        </div>
       </footer>
-    </main>
+
+      <!-- Drawer backdrop for mobile navigation -->
+      <div class="drawer-backdrop" id="drawer-backdrop" aria-hidden="true"></div>
+    </div>
+
+    <!-- Application Script -->
     <script src="app.js"></script>
   </body>
 </html>

@@ -446,26 +446,80 @@ Rollback restores a known state; it does not erase the bad version. Keeping the
 bad version makes the incident auditable and allows the ingestion bug to be
 fixed before trying again.
 
-## Interactive learning interface
+## Interactive learning interface: Professional Knowledge Graph Lab
 
-The reference site uses a client-rendered app root, a diagram-first layout,
-step navigation, a monospace teaching font, CSS custom properties for themes,
-and explanatory content beside the visual. We built an original knowledge-graph
-lesson with the same interaction idea without copying its source, text, or
-assets.
+### Design research & inspiration from designed-to-scale.vercel.app
 
-The first lesson demonstrates:
+We audited the reference application (Dilum Sanjaya's System Design course) to understand its architectural principles:
+1. **Window & Layout Hierarchy**:
+   - Fixed-viewport application mode on desktop (`100vw` by `100vh` grid with `52px` topbar, fluid body, and clean `34px` status footer) avoiding awkward window clipping.
+   - Three-column body grid (`260px` IDE explorer, fluid center hero canvas, and `390px` educational rail) that collapses to a slide-out drawer on tablets (`<= 980px`) and stacks naturally on mobile devices (`<= 768px`) with unclipped vertical scrolling.
+2. **Tactile Color System & Typography**:
+   - Warm paper aesthetic: `--paper: #f4ebe0`, `--sheet: #fbf7f1`, `--card: #f8f0e6`, `--line: #ddd3c5`, and `--ink: #1d1b18`.
+   - Dark theme tokens with warm obsidian and deep slate tones (`--paper: #1b1916`, `--sheet: #23201b`, `--card: #27231e`).
+   - Technical monospace typography (`"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace`) with consistent sizing, uppercase tracking on eyebrows (`0.08em`), and tight line heights on headers.
+   - High-contrast visual accents: emerald green for verified/teams, azure blue for services/traversal, amber for tech/predicates, rust for conflicts/schema rejections, and purple for persons.
+3. **IDE Explorer Pattern**:
+   - Collapsible folders (`01 · Foundations`, `02 · Ingestion & Extraction`, `03 · Graph Storage`, `04 · Retrieval & Reasoning`, `05 · Evaluation & Quality`) inspired by modern developer tools.
+   - File-like items (`01_data_sources.kg`, `02_extraction.kg`, etc.) with `.kg` file badges, auto-opening active folder, and clear keyboard focus states.
+4. **Hero Canvas Visual Language & Substep Animations**:
+   - Replaced plain circular nodes with rich architectural system components:
+     - **Service Node (Checkout)**: Microservice rack unit with chassis header, status LED (`● 200 OK`), port badge (`:8080`), glyph, and sub-labels.
+     - **Database Node (PostgreSQL)**: Multi-tier database chassis with read/write IOPS LED, port (`:5432`), and engine version.
+     - **Team Node (Payments)**: Engineering squad badge with active member counter and domain banner.
+     - **Person Node (Asha Patel)**: Staff engineer identity chip with on-call status LED.
+     - **Incident Node (INC-842)**: Alert triage beacon with blinking red hazard LED and blast radius tags.
+   - Dynamic, reactive substep animations for every stage:
+     - **Data Sources Substeps**:
+       * *Unstructured docs*: Markdown runbook sheet (`checkout-runbook.md`) with vertical scanning laser line (`scan-vertical`) highlighting prose lines and streaming extracted token pills.
+       * *Structured data*: Interactive JSON catalog tree (`service-catalog.json`) with expanding syntax keys and green `[VALIDATED TYPE]` pulsing checks.
+       * *Incident logs*: Real-time telemetry console (`incident-stream.log`) with blinking cursor, P1 hazard beacon, and live streaming outage events.
+       * *Source metadata*: Cryptographic provenance attacher running SHA-256 hash spinner and stamping down a bouncy `VERIFIED & SIGNED ✓` tamper seal with RBAC ACL permissions.
+     - **Extraction Substeps**: Entity bounding boxes with targeting brackets, relation arrow morphing, character offset span ruler, and confidence gauges.
+     - **Entity Linking Substeps**: Magnetic alias bubble convergence, persistent URN stamp, polysemous ambiguity collision alert ("Atlas"), and steward review ticket.
+     - **Validation Substeps**: Schema rule approval stamp, 5-point required field checklist, type constraint mismatch alert, and physical Dead-Letter Queue (DLQ) slide chute.
+     - **Deduplication Substeps**: Deterministic triple hashing, idempotency collision barrier, multi-source accumulation counter, and merge ledger.
+     - **Provenance Substeps**: Authority tier comparison, freshness half-life countdown, cryptographic signature match, and composite confidence calculation.
+     - **Graph Storage Substeps**: Node property drawer, adjacency lists, version snapshot timeline (`v1.4.2 [COMMITTED]`), and storage engine trade-off matrix.
+     - **Querying Substeps**: Natural language intent parser, multi-hop light beam traversal, RBAC access gate, and temporal freshness filter.
+     - **Evidence Answering Substeps**: Grounded sentence constructor, source citations `[1]` and `[2]`, safe refusal guardrail shield, and NLI entailment meter.
+     - **Conflict Handling Substeps**: Competing claims comparison, authority showdown, freshness decay comparison, and human tie-break review ticket dispatch.
+     - **Evaluation Substeps**: Retrieval recall formula, zero-hallucination badge, citation precision meter, faithfulness gauge, coverage radar, and P95 latency/cost HUD.
+5. **Educational Guide Rail**:
+   - Beginner-friendly concept explanation.
+   - Deep dive into currently active clickable substep.
+   - Interactive prediction quiz with 3 choices, immediate correctness verification, and explanatory feedback.
+   - Code/data snippet with syntax styling and copy-to-clipboard functionality.
+   - Production failure modes ("What can fail in production?").
+   - At production scale notes (distributed streaming, Kafka CDC, Bloom filters, KMS signing).
+   - Evidence audit grid (source, span, timestamp, authority score, freshness status).
+   - Interactive live evaluation metrics glossary.
 
-```text
-source -> extraction -> entity linking -> validation -> querying
-```
+### Concept learned:
+A production knowledge graph QA pipeline requires 11 distinct stages working in harmony: ingestion outside the graph, extraction with span preservation, entity linking to canonical IDs, schema validation with dead-letter routing, deduplication with source accumulation, cryptographic provenance attachment, versioned graph storage, multi-hop query traversal with access control, citation-backed answer generation with safe refusal guardrails, conflict resolution via authority and freshness matrices, and continuous evaluation against gold test suites.
 
-Each step exposes a prediction, graph state, evidence trail, and production
-scale note. The page is intentionally dependency-free so the learner can read
-the DOM, CSS, and state transitions directly.
+### Code changed:
+- `web/index.html`: Complete semantic redesign with `<header>`, `<nav>`, `<aside>`, `<main>`, `<figure>`, `<section>`, `<footer>`, accessible buttons, ARIA tree roles, HUD headers, mobile drawer close button, and mobile backdrop.
+- `web/styles.css`: Complete CSS overhaul including tactile paper and dark theme tokens, mobile phone layout (`<= 768px` and `<= 380px`), non-overlapping mobile node layout, 44px touch targets, vertically stacked conflict matrix, full-height slide-over explorer drawer, SVG bezier paths, glowing active edges, interactive prediction quiz styling, and metric tiles.
+- `web/app.js`: Implementation of all 11 stages with clickable substeps, interactive prediction quizzes with instant feedback, stage-specific overlay renderers, SVG curved edges, metric glossary, keyboard shortcuts (`J`/`K`/`ArrowKeys`/`T`/`M`), theme toggling, node inspection click interactions, and mobile drawer logic.
+- `learning_log.md`: Documented design research, UI architecture, 11-stage pipeline, and verification results.
 
-The expanded version now models the full workflow as ten interactive stages:
-data sources, extraction, entity linking, validation, deduplication,
-provenance, graph storage, querying, evidence-backed answering, and
-evaluation. Each stage has clickable substeps and the request token moves
-through the pipeline while the graph and evaluation metrics change.
+### Evidence inspected:
+- Reference site DOM, computed styles, CSS variables (`--paper`, `--sheet`, `--card`, `--ink`, `--line`), typography, and layout behavior analyzed via curl and node scripts.
+- Verified DOM element IDs and ARIA labels in `web/index.html`.
+- Verified 11 stages, 44 substeps, quizzes, and metric definitions in `web/app.js`.
+- Verified light and dark mode styling, responsive breakpoints (`<= 1200px`, `<= 980px`, `<= 768px`), and reduced-motion mode in `web/styles.css`.
+
+### Tests run:
+- `node -c web/app.js`: Syntax check passed.
+- Node mock DOM execution: verified all 11 stage transitions, substep toggles, prediction quiz evaluations, and metric explainer updates.
+- Local HTTP server test: `python3 -m http.server 8080 --directory web` verified `HTTP/1.0 200 OK`.
+- Python backend test suite: `PYTHONPATH=src python3 -m unittest discover tests` ran 33 tests with 100% OK.
+
+### What can still be wrong:
+- Web browsers with JavaScript disabled will see a static placeholder; server-side rendering or progressive static fallback could be added in a hosted full-stack deployment.
+- Mobile screens under 360px width may require horizontal panning for wide SVG labels.
+
+### Next concept:
+Connecting graph storage to distributed graph engines (Neo4j Cypher or SPARQL endpoints) while maintaining the local in-memory/SQLite implementation behind the same interchangeable repository interface.
+

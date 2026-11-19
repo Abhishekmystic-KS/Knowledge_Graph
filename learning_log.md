@@ -207,3 +207,45 @@ and its source is recorded.
 
 Why should we reject an edge that refers to an ID not present in the `nodes`
 list instead of creating that node automatically?
+
+## Milestone 4 — Entity linking
+
+### Concept learned
+
+Entity linking maps a name found in text to a canonical graph ID:
+
+```text
+"Checkout service" -> checkout
+```
+
+This prevents duplicate nodes when the same entity has multiple names. The
+linker must not silently guess: unknown names and ambiguous names are errors
+that need more data or human review.
+
+### Challenge
+
+If the text says `"Atlas"` and the graph contains both an Atlas database and an
+Atlas project, should the system choose one automatically?
+
+## Milestone 5 — Provenance
+
+### Concept learned
+
+Provenance is the history attached to a fact: where it came from, which text
+supported it, when it was observed, and how confident the system is.
+
+```text
+Payments --OWNS--> Checkout
+source: engineering-catalog.json
+source_span: "The Payments team owns the Checkout service."
+observed_at: 2026-11-19
+confidence: 0.98
+```
+
+Without provenance, an answer may sound convincing but cannot be audited or
+corrected. Confidence is a signal for review, not proof that a fact is true.
+
+### Challenge
+
+If two sources claim different owners for Checkout, should we silently replace
+the old fact or preserve both facts and investigate the conflict?

@@ -62,9 +62,24 @@ class KnowledgeGraph:
         self, start: str, first_predicate: str, second_predicate: str
     ) -> list[Node]:
         """Follow two directed relationships from a starting entity."""
-        results: list[Node] = []
-        for first_hop in self.neighbors(start, predicate=first_predicate):
-            results.extend(
-                self.neighbors(first_hop.node_id, predicate=second_predicate)
+        return [
+            self._nodes[path[-1][1]]
+            for path in self.two_hop_paths(
+                start, first_predicate, second_predicate
             )
+        ]
+
+    def two_hop_paths(
+        self, start: str, first_predicate: str, second_predicate: str
+    ) -> list[list[tuple[str, str]]]:
+        """Return two-hop paths as (predicate, node_id) steps."""
+        results: list[list[tuple[str, str]]] = []
+        for first_hop in self.neighbors(start, predicate=first_predicate):
+            for second_hop in self.neighbors(
+                first_hop.node_id, predicate=second_predicate
+            ):
+                results.append([
+                    (first_predicate, first_hop.node_id),
+                    (second_predicate, second_hop.node_id),
+                ])
         return results

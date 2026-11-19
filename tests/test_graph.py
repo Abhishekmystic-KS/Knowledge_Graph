@@ -17,6 +17,14 @@ class KnowledgeGraphTests(unittest.TestCase):
 
         self.assertEqual([node.node_id for node in result], ["payments"])
 
+    def test_two_hop_query_can_return_explanation_path(self) -> None:
+        paths = self.graph.two_hop_paths("asha", "WORKS_AT", "OWNS")
+
+        self.assertEqual(
+            paths,
+            [[("WORKS_AT", "acme"), ("OWNS", "payments")]],
+        )
+
     def test_relationship_direction_matters(self) -> None:
         self.assertEqual(self.graph.neighbors("acme", predicate="WORKS_AT"), [])
 

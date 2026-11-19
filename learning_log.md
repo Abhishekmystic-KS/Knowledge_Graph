@@ -249,3 +249,24 @@ corrected. Confidence is a signal for review, not proof that a fact is true.
 
 If two sources claim different owners for Checkout, should we silently replace
 the old fact or preserve both facts and investigate the conflict?
+
+## Milestone 6 — Querying
+
+### Concept learned
+
+A graph query follows relationships from a starting entity. A one-hop query
+asks for direct neighbors; a multi-hop query follows a path through more than
+one relationship.
+
+```text
+Asha -WORKS_AT-> Acme -OWNS-> Payments
+```
+
+The answer is `Payments`, but the path is also important because it explains
+how the answer was found. Query results should be inspectable rather than
+returning an unexplained name.
+
+### Challenge
+
+For the question `"What does Checkout use?"`, which relationship should the
+query follow: `OWNS`, `USES`, or `DEPENDS_ON`?

@@ -463,3 +463,9 @@ source -> extraction -> entity linking -> validation -> querying
 Each step exposes a prediction, graph state, evidence trail, and production
 scale note. The page is intentionally dependency-free so the learner can read
 the DOM, CSS, and state transitions directly.
+
+The expanded version now models the full workflow as ten interactive stages:
+data sources, extraction, entity linking, validation, deduplication,
+provenance, graph storage, querying, evidence-backed answering, and
+evaluation. Each stage has clickable substeps and the request token moves
+through the pipeline while the graph and evaluation metrics change.

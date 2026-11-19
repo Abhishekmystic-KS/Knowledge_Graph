@@ -337,4 +337,15 @@ Recall: 1 / 2 = 0.5
 
 If retrieval recall is 1.0 but unsupported-claim rate is 0.5, is the system
 safe to trust? Explain why or why not.
+
+### Next metric
+
+**Citation precision** checks whether cited facts actually support the claims:
+
+```text
+supported citations / all citations
+```
+
+A citation can be real but irrelevant, so citation presence alone is not
+enough. The cited source must support the specific claim.
 hi

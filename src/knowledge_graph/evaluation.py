@@ -7,12 +7,14 @@ from dataclasses import dataclass
 class EvaluationResult:
     retrieval_recall: float
     unsupported_claim_rate: float
+    citation_precision: float
 
 
 def evaluate(
     required_fact_ids: set[str],
     retrieved_fact_ids: set[str],
     claimed_fact_ids: set[str],
+    cited_fact_ids: set[str],
 ) -> EvaluationResult:
     """Measure whether retrieval and answer claims are evidence-supported."""
     if not required_fact_ids:
@@ -27,4 +29,14 @@ def evaluate(
         if claimed_fact_ids
         else 0.0
     )
-    return EvaluationResult(retrieval_recall, unsupported_rate)
+    cited_supported = cited_fact_ids & claimed_fact_ids
+    citation_precision = (
+        len(cited_supported) / len(cited_fact_ids)
+        if cited_fact_ids
+        else 0.0
+    )
+    return EvaluationResult(
+        retrieval_recall,
+        unsupported_rate,
+        citation_precision,
+    )
